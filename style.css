@@ -3,14 +3,38 @@
     --gitHubRibbonColor: black;
 }
 
+
 body {
+
+    background-color: white;
     background-color: var(--bgcolor);
     background-image: radial-gradient( var(--bgcolor), black 120%);
     height: 100vh;
     color: white;
     font: 1.3rem Inconsolata, monospace;
-    text-shadow: 0 0 5px #C8C8C8;
+    text-shadow: 0 0 5px #C8C8C8; 
 }
+
+/* 
+    this adds white line that mimic the alt monitors 
+    currently that doesnt seems to work as expected
+    check working codepen: https://codepen.io/chriscoyier/pen/GBbOJd
+    body:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: repeating-linear-gradient(
+            0deg,
+            rgba(black, 0.15),
+            rgba(black, 0.15) 1px,
+            transparent 1px,
+            transparent 2px
+            );
+        }
+*/
 
 #jumbotron {
     background-color: #ffffff4a;
