@@ -1,0 +1,70 @@
+:root {
+    --bgcolor: #005200;
+    --gitHubRibbonColor: black;
+}
+
+body {
+    background-color: var(--bgcolor);
+    background-image: radial-gradient( var(--bgcolor), black 120%);
+    height: 100vh;
+    color: white;
+    font: 1.3rem Inconsolata, monospace;
+    text-shadow: 0 0 5px #C8C8C8;
+}
+
+#jumbotron {
+    background-color: #ffffff4a;
+    border-radius: 15px;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    margin: 20px 0 20px 0;
+}
+
+#inputs {
+    text-align: center;
+}
+
+#digitsinput {
+    margin: 20px 0 10px 0;
+    font-size: 1.6em;
+    text-align: center;
+    font-family: monospace;
+    background-color: #00ff008f;
+    color: white;
+    border: 3px solid #90dd90;
+    padding: 2px;
+}
+
+#digitsinput:focus {
+    background-color: #3a833a;
+}
+
+#calculate {
+    width: 325px;
+    padding: 9px;
+    background: white;
+    border: 2px solid black;
+    background-color: #ec4e4e;
+    font-size: 1.3em;
+    font-family: monospace;
+}
+
+#calculate:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+#calculate:focus {
+    background-color: red;
+}
+
+#calculate:focus {
+    outline: 0;
+}
+
+#statsTable {
+    min-width: 400px;
+}

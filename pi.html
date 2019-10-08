@@ -1,58 +1,129 @@
-
 <!DOCTYPE html>
-Digits to calculate: <input id="digitsinput" /> <button id="start">Start</button><br/>
-Digits done: <span id="dcount">0</span><br/>
-Terms: <span id="terms">0</span><br/>
-Elapsed: <span id="elapsed"></span><br/>
-Base10 Convert: <span id="base10"></span><br/>
-PI: (Shown in hexadecimal until the final conversion)<br/>
-<span id="digits"></span>
-<script>
-let i, x, pi, startTime;
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 
-function doSomeCalcs() {
-    if (x > 0) {
-        for (let j = 0; j < 100; ++j) {
-            x = x * i / ((i + 1n) * 4n);
-            pi += x / (i + 2n);
-            i += 2n;
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />
+    <title>Calculate π (Pi) with JavaScript and new BigInt Type</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- stylesheet for GitHub Ribbon, source: https://github.com/simonwhitaker/github-fork-ribbon-css -->
+    <link rel="stylesheet" href="style_gh-fork-ribbon.css" />
+    <link rel="stylesheet" href="style.css">
+    <script>
+        let i, x, pi, startTime;
+
+        function doSomeCalcs() {
+            if (x > 0) {
+                for (let j = 0; j < 100; ++j) {
+                    x = x * i / ((i + 1n) * 4n);
+                    pi += x / (i + 2n);
+                    i += 2n;
+                }
+                const pistr16 = pi.toString(16);
+                document.getElementById('terms').innerHTML = ((i - 1n) / 2n).toString();
+                document.getElementById('dcount').innerHTML = (((pistr16.length - x.toString(16).length) * 1.20412) - 20).toFixed(0);
+
+                document.getElementById('digits').innerHTML = pistr16.replace(/.{10}/g, "$& ");
+                document.getElementById('elapsed').innerHTML = ((new Date() - startTime) / 1000).toFixed(3) + " s";
+
+                setTimeout(doSomeCalcs, 0);
+            } else {
+                // After the last calculation, show in decimal
+                const base10start = new Date();
+                const pistr10 = (pi / (10n ** 20n)).toString(10);
+                document.getElementById('dcount').innerHTML = (pistr10.length - 1).toFixed(0);
+                document.getElementById('digits').innerHTML = pistr10.replace(/.{10}/g, "$& ");
+                document.getElementById('base10').innerHTML = ((new Date() - base10start) / 1000).toFixed(3) + " s";
+            }
         }
-        const pistr16 = pi.toString(16);
-        document.getElementById('terms').innerHTML = ((i - 1n) / 2n).toString();
-        document.getElementById('dcount').innerHTML = (((pistr16.length - x.toString(16).length) * 1.20412) - 20).toFixed(0);
 
-        document.getElementById('digits').innerHTML = pistr16.replace(/.{10}/g, "$& ");
-        document.getElementById('elapsed').innerHTML = ((new Date() - startTime)/1000).toFixed(3) + " s";
+        function startCalcs(digits) {
+            i = 1n;
+            x = 3n * (10n ** (BigInt(digits) + 20n));
+            pi = x;
+            startTime = new Date();
+            setTimeout(doSomeCalcs, 0);
+        }
+    </script>
 
-        setTimeout(doSomeCalcs, 0);
-    } else {
-        // After the last calculation, show in decimal
-        const base10start = new Date();
-        const pistr10 = (pi / (10n ** 20n)).toString(10);
-        document.getElementById('dcount').innerHTML = (pistr10.length - 1).toFixed(0);
-        document.getElementById('digits').innerHTML = pistr10.replace(/.{10}/g, "$& ");
-        document.getElementById('base10').innerHTML = ((new Date() - base10start)/1000).toFixed(3) + " s";
-    }
-}
 
-function startCalcs(digits) {
-	i = 1n;
-	x = 3n * (10n ** (BigInt(digits) + 20n));
-	pi = x;
-	startTime = new Date();
-    setTimeout(doSomeCalcs, 0);
-}
 
-document.getElementById('start').onclick = function() {
-    const digitsstr = document.getElementById('digitsinput').value;
-    const digitsnum = parseInt(digitsstr);
+</head>
 
-    if (digitsnum >= 1) {
-        startCalcs(digitsnum);
-    } else {
-        alert("Please enter a valid number of digits.");
-    }
+<body>
+    <a class="github-fork-ribbon" href="https://github.com/danielnovta/js_picalculate" data-ribbon="Fork me on GitHub"
+        title="Fork me on GitHub" target="_blank">Fork me on GitHub</a>
 
-    return false;
-};
+    <!--[if lt IE 9]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="jumbotron">
+
+        <div id="inputs">
+            Digits to calculate:<br />
+            <input type="number" required value="31415" id="digitsinput" /> <br />
+            <button id="calculate">Calculate π</button><br />
+        </div>
+
+        <div id="stats">
+            <table id="statsTable">
+                <tr>
+                    <td>Digits done:</td>
+                    <td><span id="dcount">0</span></td>
+                </tr>
+                <tr>
+                    <td>Terms:</td>
+                    <td><span id="terms">0</span></td>
+                </tr>
+                <tr>
+                    <td>Elapsed:</td>
+                    <td><span id="elapsed"></span></td>
+                </tr>
+                <tr>
+                    <td>Base10 Convert:</td>
+                    <td><span id="base10"></span></td>
+                </tr>
+                <!-- PI: (Shown in hexadecimal until the final conversion)<br /> -->
+            </table>
+        </div>
+    </div>
+
+    <div id="outputNumbers">
+        <span id="digits"></span>
+    </div>
+
+</body>
+<script>
+    document.getElementById('calculate').onclick = function () {
+        const digitsstr = document.getElementById('digitsinput').value;
+        const digitsnum = parseInt(digitsstr);
+
+        if (digitsnum >= 1) {
+            startCalcs(digitsnum);
+        } else {
+            alert("Please enter a valid number of digits.");
+        }
+
+        return false;
+    };
+
+    // simulate click calculate button if enter key is pressed while focus in inputfield
+    var input = document.getElementById("digitsinput");
+    input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("calculate").click();
+        }
+    });
 </script>
+
+</html>
